@@ -1,10 +1,8 @@
 from openai_services import call_openai
-from chromadb_services import retriver
+from chromadb_services import retriever
 from my_mongo import save_chat, fetch_chat
 
-PROMPT="""I will ask questions related to the project scope and related stuff and you have to answer accordingly."""
-
-
+PROMPT="""The conversation is related to the project scope and related stuff and you have to answer accordingly like the questions should be in such a way as the committee asks and I'm defending the proposal.If any irrelevant question is asked say i dont have the answer"""
 
 
 def defense_bot(question, user_id):
@@ -21,10 +19,10 @@ def defense_bot(question, user_id):
             )
 
     texts =[]
-    docs = retriver(question)
+    docs = retriever(question)
     for doc in docs:
         texts.append(doc.page_content)
-    combine_text= "".join(texts)
+    combine_text= " ".join(texts)
 
     messages=[
         {"role": "system", "content": PROMPT},
@@ -33,12 +31,10 @@ def defense_bot(question, user_id):
     messages.extend(clean_history)
 
     messages.append({"role": "user", "content": question })
-    user_chat = {"user_id":user_id, "role":"user", "content":question}
+    response = call_openai(messages)
+    user_chat ={"user_id":user_id, "role":"user", "content":question}
     
     save_chat(user_chat)
-
-    response = call_openai(messages)
-
     ai_chat = {"user_id":user_id, "role":"assistant", "content":response}
     save_chat(ai_chat)
     return response

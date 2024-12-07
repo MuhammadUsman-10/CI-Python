@@ -14,12 +14,12 @@ def load_chunks(docs):
         model = 'text-embedding-ada-002'
     )
     vectorstore = Chroma(
-        persist_directory= "./chromadb",
+        persist_directory= "./chromaDB",
         embedding_function= embeddings,
-        collection_name= "test_collection" #text collection name should always be small alphabets and no special characters
+        collection_name= "defensecollection" #text collection name should always be small alphabets and no special characters
     )
     Chroma.add_documents(vectorstore, docs)
-    print("document added to chromadb")
+    print("document added to chromaDB")
 
 
 def get_retriever():
@@ -27,9 +27,9 @@ def get_retriever():
         model = 'text-embedding-ada-002'
     )
     vectorstore = Chroma(
-        persist_directory= "./chromadb",
+        persist_directory= "./chromaDB",
         embedding_function= embeddings,
-        collection_name= "test_collection" #text collection name should always be small alphabets and no special characters
+        collection_name= "defensecollection" #text collection name should always be small alphabets and no special characters
     )
     return vectorstore.as_retriever()
 
@@ -49,7 +49,7 @@ chain = ({"data": retriever | format_docs,
         | prompt 
         | LLM 
         | StrOutputParser())
-print(chain.invoke("Is the project Useful?"))
+# print(chain.invoke("Is the project Useful?"))
 
 # response = chain.stream({"question":"dogs"})
 # for r in response:

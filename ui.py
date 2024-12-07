@@ -5,14 +5,16 @@ def chat(question, chat_history):
     chat_history.append({"role":"user", "content":question})
     if question == "":
         response = "Please Ask A Question:"
-        chat_history.append({"role":"user", "content":response})
+        chat_history.append({"role":"assistant", "content":response})
     else:
+        # response = chain.stream({"question":question})
         response = chain.stream(question)
-        chat_history.append({"role":"assistant", "content":question})
+        chat_history.append({"role":"assistant", "content":''})
     
     for res in response:
         chat_history[-1]["content"] += res
-        yield res, chat_history
+        # yield res, chat_history
+        yield "", chat_history
 
 with gr.Blocks(title="ChatBot") as demo:
     gr.Markdown("Chat with Custom LLM")

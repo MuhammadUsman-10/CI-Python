@@ -1,4 +1,4 @@
-from pymongo import MongoClient, ASCENDING, DESCENDING
+from pymongo import MongoClient, ASCENDING
 from datetime import datetime
 
 connection_string = "mongodb://localhost:27017/"
@@ -15,7 +15,3 @@ def fetch_chat(user_id:str):
             "user_id":user_id
         }).sort("createdAt", ASCENDING)
         )
-
-# save_chat{
-    
-# }
