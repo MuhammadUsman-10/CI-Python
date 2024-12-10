@@ -30,7 +30,10 @@ with gr.Blocks(title="ChatBot") as demo:
     textbox.submit(chat, inputs=[textbox, chatbox], outputs=[textbox, chatbox])
     submit_button.click(chat, inputs=[textbox, chatbox], outputs=[textbox, chatbox])
 
-demo.launch()
+demo.launch(
+    server_name="0.0.0.0",
+    server_port=7860,
+)
 
 # with gr.Blocks(title="ChatBot") as demo:
 #     with gr.Column():
